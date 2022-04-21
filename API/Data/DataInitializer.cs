@@ -1,11 +1,29 @@
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
     public static class DataInitializer
     {
-  public static void DataInitialize(OnlineShopContext context)
-  {
+  public static async void DataInitialize(OnlineShopContext context,UserManager<User> userManager)
+  { 
+      if(!userManager.Users.Any())
+      {
+    var user = new User
+    {
+      UserName="Amir",
+      Email="amir@onlineshop.com"
+    };
+    await userManager.CreateAsync(user, "Password1!");
+    await userManager.AddToRoleAsync(user, "Member");
+      var admin = new User
+    {
+      UserName="Admin",
+      Email="admin@onlineshop.com"
+    };
+    await userManager.CreateAsync(admin, "Password1!");
+    await userManager.AddToRolesAsync(admin, new[]{"Admin","Member"});
+   }
    if(context.Products!.Any())return;
    var products = new List<Product> { 
 
