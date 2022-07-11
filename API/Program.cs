@@ -1,5 +1,3 @@
-
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using API.Data;
 using API.Entities;
@@ -49,7 +47,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<OnlineShopContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddCors();
 builder.Services.AddIdentityCore<User>()
-.AddRoles<IdentityRole>()
+.AddRoles<Role>()
 .AddEntityFrameworkStores<OnlineShopContext>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(opt=>{
@@ -63,6 +61,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 };
 });
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<PaymentService>();
 builder.Services.AddAuthorization();
 
 
